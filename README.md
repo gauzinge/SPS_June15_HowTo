@@ -3,8 +3,8 @@
 ## INFRASTRUCTURE
 
 This section briefly describes how to start the DAQ of the EUDET Telescope / TLU / FEI4 plane.
-
-1) on the Imac in the barrack (Aconite Terminal PC) ssh into the telescope PC:
+### on the cmsuptracker006 machine in the barrack
+1)  ssh into the telescope PC:
 
         ssh -XY telescope@pcaidarc
 
@@ -12,31 +12,42 @@ This section briefly describes how to start the DAQ of the EUDET Telescope / TLU
 
         ./STARTRUN.hephy
 
-this loads the EUDAQ runcontrol and the EUDAQ log collector and brings up the GUI
+this Kills all previous instance of the  EUDAQ runcontrol start the runcontrol and the EUDAQ log collector and brings up the GUI 
 
-3) in the EUDAQ barrack, one the real pcaidarc there is a Windows remote Desktop connection running
-        -) NI PC
-        -) STControl
+3) On the CMSuptracker003 open a new terminal, start a remote connection to the tbdaqpc01.cern.ch (STControl) via 
 
-4) on the NI PC, navigate to C:\eudaq in the windows explorer and launch the 
+        rdesktop-vrdb -g 1600x900 tbdaqpc01.cern.ch
+        User: TestBeamAdmin
+You will find the PW attached to the monitor
+
+4) Open the Developer Command Line on the Desktop and launch: 
+
+        E:\icwiki_svn\USBPix\host\tags\release-5.3\bin\STControl_eudaq.exe -r 192.168.5.251
+
+
+4) Start a remote connection to the flhaida.cern.ch (STControl) via
+
+        rdesktop-vrdb -g 1600x900 flhaida.cern.ch
+        User: telescope
+You will find the PW attached to the monitor
+
+5) on the NI Remote Desktopt navigate to C:\eudaq in the windows explorer and launch the 
 
         StartNIproducer_and_TLU.bat
 
 this connnects the TLU and the telescope to the EUDAQ run control
 
-5) on the STControl PC, launch the following script from the CMD line
 
-        E:\icwiki_svn\USBPix\host\tags\release-5.3\bin\STControl_eudaq.exe -r 192.168.5.6
-
-This connects the FEI4 producer to the EUDAQ run control. The IP is to be verified! (J. Grossmann knows). 
-
-6) on the Imac, navigate to the EUDAQ run control GUI and load the correct config file (remember, you are working on a remote PC!):
+6) Now om cmsuptracker go the EUDAQ run control GUI and load the correct config file (remember, you are working on a remote PC!):
 
         ~/eudaq/conf/cms_glib_Mimosa_fei4.conf
 
 This file contains all necessary settings for: Mimosa telescope, FEI4 plane & TLU. Be aware that the filename without the ".conf" has to be copied in the "Config" field.
 
 7) click "Config". This configures TLU and Telescope - be aware that there is significant lag in the remote connection so be patient and click only once!
+
+8) During the run monitor the errors of the RunControlLog
+
 
 
 ## Starting a Telescope Run
@@ -116,7 +127,9 @@ Once this is done, click "Start" which will start a run with the number of event
 
 
 ## Online monitoring the telescope data
-Once you have started the run you may have a look at the online data of the telescope:
+Once you have started the run you may have a look at the online data of the telescope: 
+Connect to the telescope master control pc:
+
 Use the Programm:
 
         /home/telescope/BELLETEST/eudaq-neu/build/monitors/onlinemon/OnlineMon.exe -sc 1000 -f data/run000369.raw
