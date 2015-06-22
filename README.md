@@ -113,3 +113,14 @@ There create a new entry for your run with the correct information and submit it
 
 Once this is done, click "Start" which will start a run with the number of events you specified! You can stop it at any time by clicking "Stop".
 
+
+
+## Online monitoring the telescope data
+Once you have started the run you may have a look at the online data of the telescope:
+Use the Programm:
+
+        /home/telescope/BELLETEST/eudaq-neu/build/monitors/onlinemon/OnlineMon.exe -sc 1000 -f data/run000369.raw
+        
+you can play around with the options if you do not want to wait for all events to be processed. 
+
+
