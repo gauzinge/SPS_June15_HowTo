@@ -26,7 +26,7 @@ this connnects the TLU and the telescope to the EUDAQ run control
 
 5) on the STControl PC, launch the following script from the CMD line
 
-        E:\icwiki_svn\USBPix\host\tags\testbeam-1.0\bin\STControl_eudaq.exe -r 192.168.5.6
+        E:\icwiki_svn\USBPix\host\tags\testbeam-1.0\bin\STControl_eudaq.exe -r 192.168.5.251
 
 This connects the FEI4 producer to the EUDAQ run control. The IP is to be verified! (J. Grossmann knows). 
 
