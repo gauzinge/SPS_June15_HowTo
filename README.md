@@ -1,4 +1,4 @@
-# SPS_June15_HowTo
+# SPS_NOV15_HowTo
 In case there is a problem with the beam call 77500. 
 ## INFRASTRUCTURE
 
@@ -8,13 +8,14 @@ This section briefly describes how to start the DAQ of the EUDET Telescope / TLU
 
         ssh -XY telescope@pcaidarc
 
-2) on the remote machine (pcaidarc) navigate in the eudaq/ directory and execute the STARTRUN.hephy script
+2) on the remote machine (pcaidarc) navigate in the eudaq/ directory and execute the STARTRUN.cmstk script
 
-        ./STARTRUN.hephy
+        ./STARTRUN.cmstk
 
 this Kills all previous instance of the  EUDAQ runcontrol start the runcontrol and the EUDAQ log collector and brings up the GUI 
+once you start, be sure to use the "cms_Nov15_internal/external" configuration file
 
-3) On the CMSuptracker003 open a new terminal, start a remote connection to the tbdaqpc01.cern.ch (STControl) via 
+3) On the CMSuptracker006 open a new terminal, start a remote connection to the tbdaqpc01.cern.ch (STControl) via 
 
         rdesktop-vrdb -g 1600x900 tbdaqpc01.cern.ch
         User: TestBeamAdmin
@@ -24,14 +25,14 @@ You will find the PW attached to the monitor
 
         E:\icwiki_svn\USBPix\host\tags\release-5.3\bin\STControl_eudaq.exe -r 192.168.5.251
 
-
+this is the producer for the FEI4 plane
 4) Start a remote connection to the flhaida.cern.ch (STControl) via
 
         rdesktop-vrdb -g 1600x900 flhaida.cern.ch
         User: telescope
 You will find the PW attached to the monitor
 
-5) on the NI Remote Desktopt navigate to C:\eudaq in the windows explorer and launch the 
+5) on the NI Remote Desktopt navigate to C:\Desktop\old in the windows explorer and launch the 
 
         StartNIproducer_and_TLU.bat
 
@@ -40,7 +41,7 @@ this connnects the TLU and the telescope to the EUDAQ run control
 
 6) Now om cmsuptracker go the EUDAQ run control GUI and load the correct config file (remember, you are working on a remote PC!):
 
-        ~/eudaq/conf/cms_glib_Mimosa_fei4.conf
+        cms_Nov15_internal/external.conf
 
 This file contains all necessary settings for: Mimosa telescope, FEI4 plane & TLU. Be aware that the filename without the ".conf" has to be copied in the "Config" field.
 
@@ -63,7 +64,7 @@ NOTE: The TLU will not issue any triggers before the GLIB DAQ is started!
 
 ## Configuring the GLIB, CBCs etc
 
-Our DAQ is controlled by 2 XDAQ applications that run on cmsuptracker002:
+Our DAQ is controlled by 2 XDAQ applications that run on cmsuptracker008:
     -) GlibSupervisor (for control and configuration)
     -) GlibStreamer (for data readout)
 
@@ -79,23 +80,22 @@ you can either configure GLIB & CBCs by using the GLIBSupervisor which is rather
 
 To do so, in a terminal do the following:
 
-        source ~/setup.env
         cd Ph2_ACF
         source setup.sh
 
 open an editor of your choice and open the file:
 
-        ~/Ph2_ACF/settings/running.xml
+        ~/Ph2_ACF/settings/Beamtest_Nov15.xml
 
-this holds the GLIB and CBC parameters. In order to change the threshold for example, just change the HEX number in line 9. The three lines below point to the CBC config files that are currently being used. Editing the Global_CBC_Register node avoids having to change all CBC files manually. Things defined in this node take precedence over the settings from the CBC files!
+this holds the GLIB and CBC parameters. In order to change the threshold for example, just change the HEX number in the line that says <GlobalCBCRegister> . The three lines below point to the CBC config files that are currently being used. Editing the Global_CBC_Register node avoids having to change all CBC files manually. Things defined in this node take precedence over the settings from the CBC files!
 
 Then, on the terminal, use the systemtest application to upload the config to GLIB & CBCs:
 
-        ~/Ph2_ACF/bin/systemtest -f settings/running.xml -c
+        ~/Ph2_ACF/bin/systemtest -f settings/Beamtest_Nov15.xml -c
 
 or from the ACF folder:
 
-        systemtest -f settings/running.xml -c
+        systemtest -f settings/Beamtest_Nov15.xml -c
 
 Be carful not to alter any GLIB parameters as this could screw up running!
 
@@ -105,12 +105,12 @@ once the TLU / Telescope are running and waiting for our DAQ, navigate to the GL
 
 In the fields labelled "Destination file" and "New DAQ format file" enter the following filepath / name:
 
-        Destination file: /mnt/2tb/Data/runxxx.raw
-        New DAQ format file: /mnt/2tb/Data/runxxx.daq
+        Destination file: /cmsuptrackernas/raw/runxxx.raw
+        New DAQ format file: /cmsuptrackernas/DaqData/runxxx.daq
 
 where xxx is the TLU run number read from the EUDAQ run control.
 
-Then, in the "Number of Acquisitions" field enter the number of events you would like to record / 1000. (i.e. 400 for 400k Events - the default packet size for our DAQ is 1000).
+Then, in the "Number of Acquisitions" field enter the number of events you would like to record / 1000. (i.e. 400 for 400k Events - the default packet size for our DAQ is 999 which is 1000 in reality as it is zero-indexed).
 
 Click the "Conditions Data" field and fill the fields for HighVoltage, Angle and in the third, enter the current threshold in decimal, then click OK. 
 
