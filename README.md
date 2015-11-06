@@ -1,53 +1,42 @@
 # SPS_NOV15_HowTo
 In case there is a problem with the beam call 77500. 
+If there are problems with the telescope / DAQ, call G. Auzinger
 ## INFRASTRUCTURE
 
 This section briefly describes how to start the DAQ of the EUDET Telescope / TLU / FEI4 plane.
-### on the cmsuptracker006 machine in the barrack
-1)  ssh into the telescope PC:
-
-        ssh -XY telescope@pcaidarc
-
-2) on the remote machine (pcaidarc) navigate in the eudaq/ directory and execute the STARTRUN.cmstk script
+### go to the AIDA Telescope control PC
+1) navigate in the eudaq/ directory and execute the STARTRUN.cmstk script
 
         ./STARTRUN.cmstk
 
-this Kills all previous instance of the  EUDAQ runcontrol start the runcontrol and the EUDAQ log collector and brings up the GUI 
+this Kills all previous instance of the  EUDAQ runcontrol start the runcontrol and the EUDAQ log & data collector and the online Monitor + brings up the GUI 
 once you start, be sure to use the "cms_Nov15_internal/external" configuration file
 
-3) On the CMSuptracker006 open a new terminal, start a remote connection to the tbdaqpc01.cern.ch (STControl) via 
+2) on the AIDA Telescope Control PC, open the Remote Desktop client 
 
-        rdesktop-vrdb -g 1600x900 tbdaqpc01.cern.ch
-        User: TestBeamAdmin
-You will find the PW attached to the monitor
+there are 2 PCs: NICratePC & USBPixPC1, you will need RDC connections to both:
+    
+2a) connect to the NICrate PC, go to C:\opt\eudaq\bin and start the
 
-4) Open the Developer Command Line on the Desktop and launch: 
+    startNIandTLU.bat
 
-        E:\icwiki_svn\USBPix\host\tags\release-5.3\bin\STControl_eudaq.exe -r 192.168.5.251
+this will bring up two command line windows, one for the NI Producer (Telescope Data) and one for the TLU (trigger handling).
 
-this is the producer for the FEI4 plane
-4) Start a remote connection to the flhaida.cern.ch (STControl) via
+Furthermore, in the runcontrol window on the AIDA control PC, you will see that the NIProducer & TLU producer have connected to the run control.
 
-        rdesktop-vrdb -g 1600x900 flhaida.cern.ch
-        User: telescope
-You will find the PW attached to the monitor
+2b) connect to the USBPixPC1 and start the STProducer by clicking the icon on the Desktop (Start_STControl....)
 
-5) on the NI Remote Desktopt navigate to C:\Desktop\old in the windows explorer and launch the 
+then you will see the USBpix producer connect in the main RunControl window.
 
-        StartNIproducer_and_TLU.bat
-
-this connnects the TLU and the telescope to the EUDAQ run control
-
-
-6) Now om cmsuptracker go the EUDAQ run control GUI and load the correct config file (remember, you are working on a remote PC!):
+3) Now om the AIDA Telescope PC go the EUDAQ run control GUI and load the correct config file :
 
         cms_Nov15_internal/external.conf
 
-This file contains all necessary settings for: Mimosa telescope, FEI4 plane & TLU. Be aware that the filename without the ".conf" has to be copied in the "Config" field.
+This file contains all necessary settings for: Mimosa telescope, FEI4 plane & TLU. Be aware that the filename without the ".conf" has to be copied in the "Config" field. cms_Nov15_internal.conf is for running with internal triggers, _ext is for the scintillator trigger.
 
-7) click "Config". This configures TLU and Telescope - be aware that there is significant lag in the remote connection so be patient and click only once!
+8) click "Config". This configures TLU and Telescope - be aware that there is significant lag in the remote connection so be patient and click only once! If you click twice, there is a chance you will have to start the whole procedure again.
 
-8) During the run monitor the errors of the RunControlLog
+4) During the run monitor the errors of the RunControlLog & OnlineMonitor
 
 
 
@@ -68,72 +57,88 @@ Our DAQ is controlled by 2 XDAQ applications that run on cmsuptracker008:
     -) GlibSupervisor (for control and configuration)
     -) GlibStreamer (for data readout)
 
-they have to be launched together by calling a shell script:
+0) As a first step, log into the control Pc and ssh to cmsuptracker008 (in the beam area). 
 
-        /home/xtaldaq/glibConnect.sh
+    ssh -XY xtaldaq@cmsuptracker008
 
-then, in a browser, the XDAQ main page can be reached on the localhost on port 13000
+once logged in, you can start GlibStreamer/Supervisor by calling a shell script:
 
-        127.0.0.1:13000
+        /home/xtaldaq/CBCDAQ/GlibStreamer/scripts glibConnect.sh 16
 
-you can either configure GLIB & CBCs by using the GLIBSupervisor which is rather cumbersome because you have to click many buttons in the correct order and you can not screw up. The second possibility is to use the Ph2_ACF framework to write the parameters to the CBCs (the GLIB is in it's default config anyway). 
+(be sure to put the option 16 after the script, otherwise you will have the wrong config)
 
-To do so, in a terminal do the following:
+then, in a browser (on your local PC), the XDAQ main page can be reached on cmsuptracker008 on port 13000
 
-        cd Ph2_ACF
-        source setup.sh
+        cmsuptracker008:13000
 
-open an editor of your choice and open the file:
+this brings you the the hyperdaq page where you will have icons both for the GLIBStreamer & the GLIB Supervisor. Open both in new Tabs.
+
+1) first go to the GLIBSupervisor, click initialize, wait for the state-change and then click configure.
+2) on the GlibStreamer page, select "Load Parameters from file" and put the following file in the box:
+    
+    /home/xtaldaq/streamerValues.txt
+
+click "LoadfromFile". This will update the settings and put the correct values in the fields. All you have to do is update the run number to the one you derive from the ELOG (cmstkph2-bt.web.cern.ch). After you have done so, click configure. 
+
+In the fields labelled "Destination file" and "New DAQ format file" enter the following filepath / name:
+
+        Destination file: /cmsuptrackernas/Raw/runxxx.raw
+        New DAQ format file: /cmsuptrackernas/DaqData/runxxx.daq
+
+where xxx is the run number from the ELOG (make sure to fill the TLU run number from the EUDAQ run control in the appropriate field).
+
+(old text: Then, in the "Number of Acquisitions" field enter the number of events you would like to record / 1000. (i.e. 400 for 400k Events - the default packet size for our DAQ is 999 which is 1000 in reality as it is zero-indexed).
+
+Click the "Conditions Data" field and fill the fields for HighVoltage, Angle and in the third, enter the current threshold in decimal, then click OK. 
+
+Now the GlibStreamer is configured correctly.)
+
+Eventually, depending on the run type, you might also have to change the number of acquisitions (multiply this number by 1000 and you get the number of events that will be recorded).
+
+**Make sure that the "Break Trigger during block read" is not ticked!**
+
+now go to conditions data and enter the data following the list in the AIDA counting room. 
+
+2) before you can start a run, you need to configure the GLIB readout board and the CBC chips on the module. This could be done with the GLIBSupervisor application running in another tab but it is rather cumbersome and involves a lot of clicking. It is much easier to do the following.
+
+-) open another terminal and 
+
+    ssh -XY xtaldaq@cmsuptracker008
+
+once logged in:
+
+    cd Ph2_ACF
+    source setup.sh
+
+If you have to modify settings other than the Threshold (VCth), open the file
 
         ~/Ph2_ACF/settings/Beamtest_Nov15.xml
 
-this holds the GLIB and CBC parameters. In order to change the threshold for example, just change the HEX number in the line that says <GlobalCBCRegister> . The three lines below point to the CBC config files that are currently being used. Editing the Global_CBC_Register node avoids having to change all CBC files manually. Things defined in this node take precedence over the settings from the CBC files!
+and edit accordingly. The Stub latency is a parameter of the GLIB board and is enclosed in a <Register> xml node. Be aware that you have to set it for both front-ends. 
 
-Then, on the terminal, use the systemtest application to upload the config to GLIB & CBCs:
+**This, in theory, is expert-only work as it could mess up the data.** 
 
-        ~/Ph2_ACF/bin/systemtest -f settings/Beamtest_Nov15.xml -c
+Now you can configure the setup by typing (in the command line)
 
-or from the ACF folder:
+    configure -v "threshold in hex"
 
-        systemtest -f settings/Beamtest_Nov15.xml -c
+Since we will mostly be doing threshold scans, check in the elog & the measurement programm what threshold setting should be applied for this run and enter the value in hex, using the format "0xVV" where value stands for the number (8bit!) Be aware that the threshold is increased by lowering this number!
+
+this last step will download all settings to the GLIB and the CBCs and read back the threshold. If you get an error message saying that it was not possible to read back a value in 5 iterations, try again.
 
 Be carful not to alter any GLIB parameters as this could screw up running!
 
 ## Starting a Run on the GLIB DAQ
 
-once the TLU / Telescope are running and waiting for our DAQ, navigate to the GLIBStreamer application and configure it by clicking "configure".
+Head to the ELOG which is available from the beamtest web page:
 
-In the fields labelled "Destination file" and "New DAQ format file" enter the following filepath / name:
-
-        Destination file: /cmsuptrackernas/raw/runxxx.raw
-        New DAQ format file: /cmsuptrackernas/DaqData/runxxx.daq
-
-where xxx is the TLU run number read from the EUDAQ run control.
-
-Then, in the "Number of Acquisitions" field enter the number of events you would like to record / 1000. (i.e. 400 for 400k Events - the default packet size for our DAQ is 999 which is 1000 in reality as it is zero-indexed).
-
-Click the "Conditions Data" field and fill the fields for HighVoltage, Angle and in the third, enter the current threshold in decimal, then click OK. 
-
-Now the GlibStreamer is configured correctly.
-
-Head to the ELOG which runs on cmsuptracker003 (if a tunnel is currently running). You will find it in the browser history on 
-
-        localhost:8080
+    cmstkph2-bt.web.cern.ch
 
 There create a new entry for your run with the correct information and submit it. Be carful to correctly fill all fields!
 
-Once this is done, click "Start" which will start a run with the number of events you specified! You can stop it at any time by clicking "Stop".
-
-
+once the TLU / Telescope are running and waiting for our DAQ (particle counter going up but not the trigger counter), navigate to the GLIBStreamer application and start it by clicking start, which will start a run with the number of events you specified! You can stop it at any time by clicking "Stop"..
 
 ## Online monitoring the telescope data
-Once you have started the run you may have a look at the online data of the telescope: 
-Connect to the telescope master control pc:
-
-Use the Programm:
-
-        /home/telescope/BELLETEST/eudaq-neu/build/monitors/onlinemon/OnlineMon.exe -sc 1000 -f data/run000369.raw
-        
-you can play around with the options if you do not want to wait for all events to be processed. 
+The online monitor for the telescope data is running as part of the run control by default so take your time to look at the plots from time to time.
 
 
