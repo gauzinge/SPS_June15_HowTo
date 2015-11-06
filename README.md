@@ -143,4 +143,72 @@ once the TLU / Telescope are running and waiting for our DAQ (particle counter g
 ## Online monitoring the telescope data
 The online monitor for the telescope data is running as part of the run control by default so take your time to look at the plots from time to time.
 
+## Running the playback on cmsuptracker007
+
+Go to http://cmsuptracker007.cern.ch:/8080/rcms
+
+login as xtaldaq
+
+press    playbackDAQ
+
+press    Create
+
+Should see state: Initial
+
+press    Initialize
+
+Should see state: Halted
+
+Go to http://cmsuptracker007.cern.ch:41800 in new window/tab
+
+press    GlibStreamer Stre...
+
+Set:
+
+Short pause duration (ms) = 1
+
+Condition data = check
+
+Fake data = check
+
+Enter data or filename: = /cmsuptrackernas/DataDaq/runXXX.daq (where xx is the run number)
+
+press   ok
+
+Go back to http://cmsuptracker007.cern.ch:/8080/rcms
+
+press   Configure
+
+Should see state: Configured
+
+press   start
+
+Should see: Starting
+
+wait...
+
+Should see: Running
+
+Go back to http://cmsuptracker007.cern.ch:41800/urn:xdaq-application:lid=52/validParam
+
+press   Refresh
+
+Should see: "Complete acquisition"
+
+Acquisition number is the number of events so far.
+
+wait... do not press refresh in your browser, but press the "refresh" button on the application
+
+Once its finished:
+
+Go back to http://cmsuptracker007.cern.ch:/8080/rcms
+
+Take the run number, and enter it into the "CMS run nr.:" field of the appropriate elog entry.
+
+Go back to http://cmsuptracker007.cern.ch:/8080/rcms
+
+press   Destroy
+
+
+
 
