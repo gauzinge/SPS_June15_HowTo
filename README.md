@@ -126,6 +126,8 @@ Since we will mostly be doing threshold scans, check in the elog & the measureme
 
 this last step will download all settings to the GLIB and the CBCs and read back the threshold. If you get an error message saying that it was not possible to read back a value in 5 iterations, try again.
 
+If you get readback errors all over the place, for all CBCs, you will have to power cycle the front-end GLIB. This is done by going across the bridge to the corridor that runs along the middle of the building. Beside the access door to our zone, there is a green rack and by the foot of that is a power socket. Just unplug the connector there, re-plug it and try to run the configuration again. If it still does not work, repeat until it does. If the problem persists after ~10 tries, call G. Auzinger
+
 Be carful not to alter any GLIB parameters as this could screw up running!
 
 ## Starting a Run on the GLIB DAQ
