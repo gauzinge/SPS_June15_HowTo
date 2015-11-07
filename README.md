@@ -155,7 +155,7 @@ press    Create
 
 Should see state: Initial
 
-press    Initialize
+press    InitialiZe
 
 Should see state: Halted
 
@@ -176,6 +176,8 @@ Enter data or filename: = /cmsuptrackernas/DataDaq/runXXX.daq (where xx is the r
 press   ok
 
 Go back to http://cmsuptracker007.cern.ch:/8080/rcms
+
+press InitialiSe!!
 
 press   Configure
 
