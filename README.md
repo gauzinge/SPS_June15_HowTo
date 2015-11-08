@@ -22,6 +22,12 @@ It is extremely important that all shifters are aware that severeal parameters /
 
 -) if you notice any irregularity, add an entry in the elog explaining your observations. This does not have to be with a run entry - feel free to add a dedicated entry - be honest about what happened and if you can, give a realistic estimate about what runs you think are affected!
 
+-) on the GLIB Streamer enable 
+
+    Break Trigger during Block Read
+
+
+
 
 
 ## INFRASTRUCTURE
