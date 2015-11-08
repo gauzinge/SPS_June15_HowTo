@@ -1,6 +1,22 @@
 # SPS_NOV15_HowTo
 In case there is a problem with the beam call 77500. 
 If there are problems with the telescope / DAQ, call G. Auzinger
+
+# IMPORTANT CHECKLIST
+
+It is extremely important that all shifters are aware that severeal parameters / setups have to be regularly monitored during the shift. Your duties do not only include starting and stopping runs but also monitoring the parameters / functionality of the setups and checking the data quality. Therefore you should terminate and restart the telescope DAQ regularly (approx every 5 runs) to get fresh online-monitoring plots from the telescope and the FEI4. In order to avoid further data corruption / loss you should:
+
+-) configure GLIB / CBCs before every new run
+-) check / interpret / scrutinize the DQM plots - if something is wrong, try to repeat the run or figure out what is wrong
+-) have an eye on the telescope Online Monitoring: this is at least as important, especially since there seems to be a problem with the FEI4 bias that stops occasionally
+-) you should restart the telescope DAQ approx. every 5 runs in order to get fresh plots that should allow you to determine if there is something wrong
+-) regularly check the temperature on the 8CBC hybrids and the bias voltage of the FEI4 plane. For that, remote-desktop connect to the HV and Temperature monitoring laptop (from the telescope PC) and verify that HV channel 0 is on, set to 80V and that there is some current drawn (we had it stop twice now, not yet sure how many telescope runs we have lost - this must not happen again).
+-) play back the recorded data. This allows the experts to run a quasi-online analysis which will greatly help to monitor the parameters we are setting / quality of the data.
+-) every parameter change you make, cross-check with your fellow shifter - everybody is tired by now so 4 eyes and 2 brains are better than 2/1.
+-) if you notice any irregularity, add an entry in the elog explaining your observations. This does not have to be with a run entry - feel free to add a dedicated entry - be honest about what happened and if you can, give a realistic estimate about what runs you think are affected!
+
+
+
 ## INFRASTRUCTURE
 
 This section briefly describes how to start the DAQ of the EUDET Telescope / TLU / FEI4 plane.
