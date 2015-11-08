@@ -124,6 +124,14 @@ Now you can configure the setup by typing (in the command line)
 
 Since we will mostly be doing threshold scans, check in the elog & the measurement programm what threshold setting should be applied for this run and enter the value in hex, using the format "0xVV" where value stands for the number (8bit!) Be aware that the threshold is increased by lowering this number!
 
+I advise you to re-configure the CBCs & GLIB before every run, also if we are doing angular scans - just to make sure that we use the right parameters and the data is sound. For angular scans at a fixed threshold (0x73), it should suffice to run the configure script without any parameter.
+
+If you need to change the Stub correlation window for the various angular scans, this is done by modifying the 
+
+    <GlobalCBCRegister name="MiscStubLogic"> xE</GlobalCBCRegister>
+
+Parameter in the Beamtest_Nov15.xml. x is the width of the correlation window (usually between 4 and 7 [hex = decimal!]) and E is the configuration of the stub logic. Never change the E!!
+
 this last step will download all settings to the GLIB and the CBCs and read back the threshold. If you get an error message saying that it was not possible to read back a value in 5 iterations, try again.
 
 If you get readback errors all over the place, for all CBCs, you will have to power cycle the front-end GLIB. This is done by going across the bridge to the corridor that runs along the middle of the building. Beside the access door to our zone, there is a green rack and by the foot of that is a power socket. Just unplug the connector there, re-plug it and try to run the configuration again. If it still does not work, repeat until it does. If the problem persists after ~10 tries, call G. Auzinger   
@@ -211,6 +219,10 @@ Go back to http://cmsuptracker007.cern.ch:/8080/rcms
 
 press   Destroy
 
+## Checking the prompt reco data
 
+If the automatic data-reconstruction script is running, basic reconstruction data should be produced within a couple of minutes after a playback run was closed.
 
+Output are produced in /cmsuptrackernas/PromptReco in the hist and plot folders. Furthermore, a .csv file with summary for each run is produced (/cmsuptrackernas/PromptReco/summary.csv). You can just scp it from cmsuptracker007, open it with libreoffice and produce your plots interactively.
 
+If the files are not produced or the csv isn't updated with new runs, connect to cmsuptracker007 and launch the promptReco.py script in the home directory.
