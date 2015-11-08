@@ -211,6 +211,10 @@ Go back to http://cmsuptracker007.cern.ch:/8080/rcms
 
 press   Destroy
 
+## Checking the prompt reco data
 
+If the automatic data-reconstruction script is running, basic reconstruction data should be produced within a couple of minutes after a playback run was closed.
 
+Output are produced in /cmsuptrackernas/PromptReco in the hist and plot folders. Furthermore, a .csv file with summary for each run is produced (/cmsuptrackernas/PromptReco/summary.csv). You can just scp it from cmsuptracker007, open it with libreoffice and produce your plots interactively.
 
+If the files are not produced or the csv isn't updated with new runs, connect to cmsuptracker007 and launch the promptReco.py script in the home directory.
