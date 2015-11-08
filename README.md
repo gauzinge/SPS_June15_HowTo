@@ -33,7 +33,9 @@ This section briefly describes how to start the DAQ of the EUDET Telescope / TLU
         ./STARTRUN.cmstk
 
 this Kills all previous instance of the  EUDAQ runcontrol start the runcontrol and the EUDAQ log & data collector and the online Monitor + brings up the GUI 
-once you start, be sure to use the "cms_Nov15_internal/external" configuration file
+once you start, be sure to use the "cms_Nov15_internal/external" configuration file.
+
+Before you can do anything further, be sure that the two LabView VIs on the NICrate PC are running. One is the current monitor for the telescope and the second one is the configuration utility (called ANEMONE). Both have to be open, running and must not show errors. Only if this is the case, the telescope startup procedure will work. Try to never close them.
 
 2) on the AIDA Telescope Control PC, open the Remote Desktop client 
 
