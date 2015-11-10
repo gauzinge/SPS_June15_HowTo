@@ -26,7 +26,16 @@ It is extremely important that all shifters are aware that severeal parameters /
 
     Break Trigger during Block Read
 
+-) check that the MIMOSA current on the NI CRATE PC is not above 3.8A. If it is higher, you need to power cycle the telescope: 
+    
+    -) kill the eudaq run control
+    -) on the NI CRATE PC: press disable followed by enable on the LAB VIEW VI that monitors the current (you should see the current going down to muA and then to ~2.5 A)
+    -) re-program the MIMOSAS using the JTAG interface (MI26 icon on the desktop)
+    -) follow the instructions at: https://telescopes.desy.de/User_manual#2._Starting_sensor:_MimosaJTAG
+    -) be sure to use the Threhsold6 file.
+    -) in case of problems / you don't understand what you are doing, call G. Auzinger
 
+-) keep an eye on the FEI4 voltage
 
 
 
@@ -159,7 +168,7 @@ I advise you to re-configure the CBCs & GLIB before every run, also if we are do
 
 If you need to change the Stub correlation window for the various angular scans, this is done by modifying the 
 
-    <GlobalCBCRegister name="MiscStubLogic"> xE</GlobalCBCRegister>
+    <GlobalCBCRegister name="MiscStubLogic"> 0xXE</GlobalCBCRegister>
 
 Parameter in the Beamtest_Nov15.xml. x is the width of the correlation window (usually between 4 and 7 [hex = decimal!]) and E is the configuration of the stub logic. Never change the E!!
 
