@@ -193,7 +193,7 @@ The online monitor for the telescope data is running as part of the run control 
 
 ## Running the playback on cmsuptracker007
 
-Go to http://cmsuptracker007.cern.ch:/8080/rcms
+Go to http://cmsuptracker007.cern.ch:8080/rcms
 
 login as xtaldaq
 
@@ -223,7 +223,7 @@ Enter data or filename: = /cmsuptrackernas/DataDaq/runXXX.daq (where xx is the r
 
 press   ok
 
-Go back to http://cmsuptracker007.cern.ch:/8080/rcms
+Go back to http://cmsuptracker007.cern.ch:8080/rcms
 
 press InitialiSe!!
 
@@ -251,11 +251,11 @@ wait... do not press refresh in your browser, but press the "refresh" button on 
 
 Once its finished:
 
-Go back to http://cmsuptracker007.cern.ch:/8080/rcms
+Go back to http://cmsuptracker007.cern.ch:8080/rcms
 
 Take the run number, and enter it into the "CMS run nr.:" field of the appropriate elog entry.
 
-Go back to http://cmsuptracker007.cern.ch:/8080/rcms
+Go back to http://cmsuptracker007.cern.ch:8080/rcms
 
 press   Destroy
 
