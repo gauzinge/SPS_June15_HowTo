@@ -10,6 +10,10 @@ It is extremely important that all shifters are aware that severeal parameters /
 
 -) have an eye on the telescope Online Monitoring: this is at least as important
 
+-) carefully fill the ELOG! This is extremely important!
+
+-) carfully fill the list of Good Runs. This is a dedicated spreadsheet on the google doc with the shift schedule / measurement program
+
 -) you should restart the telescope DAQ approx. every 5 runs in order to get fresh plots that should allow you to determine if there is something wrong
 
 -) regularly check the temperature on the hybrid and the relative humidity / dew point. Also make sure to have an eye on the currents and voltages of the bias system - you can find the plots on cmstkph2-beamtest.web.cern.ch
