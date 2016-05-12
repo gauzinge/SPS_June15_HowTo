@@ -32,6 +32,7 @@ It is extremely important that all shifters are aware that severeal parameters /
     -) follow the instructions at: https://telescopes.desy.de/User_manual#2._Starting_sensor:_MimosaJTAG
     -) be sure to use the Threhsold6 file.
     -) in case of problems / you don't understand what you are doing, call G. Auzinger
+    -) in case the remina Remote Desktop client on the ubuntu PC does not work to connect to the NICratePC, you can use the xfree client by issuing the following command on the cmd line: "xfreerdp -u telescope 192.168.5.2:3389" - this is a last resort however ( you can try "rdesktop 192.168.5.2" first or delete the password from the config of the remina connection for the NICratePC)
 
 
 ## INFRASTRUCTURE
