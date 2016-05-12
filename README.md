@@ -63,7 +63,7 @@ then you will see the USBpix producer connect in the main RunControl window.
 
         cms_May16_ext.conf
 
-This file contains all necessary settings for: Mimosa telescope, FEI4 plane & TLU. Be aware that the filename without the ".conf" has to be copied in the "Config" field.
+This file contains all necessary settings for: Mimosa telescope, FEI4 plane & TLU. 
 
 8) click "Config". This configures TLU and Telescope - be aware that there is significant lag in the remote connection so be patient and click only once! If you click twice, there is a chance you will have to start the whole procedure again.
 
@@ -134,10 +134,13 @@ Click "OK"
 
 <!--TODO: fix me!-->
 
-"Data Type"  |   "Value"    |   "Meaning"
-4            | Rotation Angle (5deg is 0)| Angle of the rotation stage
-5            | HV Setting   |   High Voltage settin; nominal value is (-)600
-8            |  StubLatency | Stub latency as configured in the HWDescription_2CBC.xml file under the "stubdata_latency_adjust_fe1" register - default value = 4
+    "Data Type"  |   "Value"    |   "Meaning"
+
+    4            | Rotation Ang | Angle of the rotation stage; 5 on the controller for the rotation stage is 0 for us!
+
+    5            | HV Setting   |   High Voltage settin; nominal value is (-)600
+
+    8            |  StubLatency | Stub latency as configured in the HWDescription_2CBC.xml file under the "stubdata_latency_adjust_fe1" register - default value = 4
 
 ## Starting a Run on the GLIB DAQ
 
