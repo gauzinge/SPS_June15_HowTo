@@ -102,6 +102,8 @@ once logged in, you can start the GlibStreamer by calling a shell script:
 
 (be sure to put the option 2 after the script, otherwise you will have the wrong config)
 
+0a) after you started the script, Control-C it after it has configured the GLIB & FE (takes <5 seconds) and run it again - this will configure everything twice but with this the number of CBC error bits we observed has significantly gone down!
+
 then, in a browser (on your local PC), the XDAQ main page can be reached on cmsuptracker008 on port 13000
 
         cmsuptracker008:13000
