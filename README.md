@@ -37,6 +37,39 @@ It is extremely important that all shifters are aware that severeal parameters /
 
 ## INFRASTRUCTURE
 
+
+### To change the Bias voltage
+
+1) Setting the voltage of the Keitleys
+Connect to cmsuptracker002 as cmstkph2.
+Before communicating with the Keithleys stop the environmental monitoring (to prevent interference):
+    tmux attach
+    ctlr+c
+    ctrl+b
+    d
+to exit tmux
+
+Go to:
+
+    cd public/environmental_monitoring/current_monitoring
+
+To set the voltage on the Keithley connected to /dev/ttyUSB0 to -600V in steps of 50V.
+
+     python keitleyControl.py -p /dev/ttyUSB0 --vs 50 -600
+
+Confirm your choice which is displayed on the screen by pressing any key
+Do the same for the other Keithley connected to /dev/ttyUSB1:
+
+    python keitleyControl.py -p /dev/ttyUSB1 --vs 50 -600
+
+Restart the monitoring script
+    tmux attach
+    python env_monitoring.py
+    ctrl+b
+    d
+After some time you can see the updated plots on the environmental monitoring webpage.
+
+
 This section briefly describes how to start the DAQ of the EUDET Telescope / TLU / FEI4 plane.
 ### go to the AIDA Telescope control PC
 1) navigate in the eudaq/ directory and execute the STARTRUN.cmstk script
